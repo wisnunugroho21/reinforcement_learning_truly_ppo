@@ -18,16 +18,6 @@ import datetime
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")  
 dataType = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
 
-class Utils():
-    def prepro(self, I):
-        I           = I[35:195] # crop
-        I           = I[::2,::2, 0] # downsample by factor of 2
-        I[I == 144] = 0 # erase background (background type 1)
-        I[I == 109] = 0 # erase background (background type 2)
-        I[I != 0]   = 1 # everything else (paddles, ball) just set to 1
-        X           = I.astype(np.float32).ravel() # Combine items in 1 array 
-        return X
-
 class Actor_Model(nn.Module):
     def __init__(self, state_dim, action_dim):
         super(Actor_Model, self).__init__()   
